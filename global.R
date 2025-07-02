@@ -17,12 +17,6 @@ set_config(config(ssl_verifypeer = 0L))
 #Here is the function that design Alice
 source(file = "source_graphQL.R", local = T)
 
-#url1 <- c("https://colectas-siagro.conabio.gob.mx/api/graphql")
-
-#url1 <- c("https://siagro.conabio.gob.mx/colectas_api")
-#url1 <- c("https://colectas-siagro.conabio.gob.mx/api/graphql")
-
-#url1 <- c("https://colectas-siagro.conabio.gob.mx/graphql")
 url1 <- c("https://colectas_gef-siagro.conabio.gob.mx/graphql")
 
 #This are the steps to tak all the data in Zendro from the section:

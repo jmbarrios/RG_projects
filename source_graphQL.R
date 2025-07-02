@@ -1,4 +1,3 @@
-
 library(httr)
 library(jsonlite)
 library(tidyverse)
@@ -7,55 +6,7 @@ library(janitor)
 set_config(config(ssl_verifypeer = 0L))
 
 
-
-##   my_query <- "{
-##     registros(pagination:{limit:100}){
-##       EstatusEcologico
-##       proyecto_id
-##       proyecto(search:{field:proyecto_id}){
-##         NombreProyecto
-##       }
-##       sitio(search:{field:sitio_id}){
-##         Latitud
-##       Longitud
-##       }
-##       taxon(search:{field:taxon_id}){
-##         taxon_id
-##         Genero
-##         EpitetoEspecifico
-##         EpitetoSubespecie
-##         EpitetoVariedad
-##         EpitetoForma
-##         EpitetoRaza
-##         EpitetoCultivar
-##       }
-##     }
-##   }
-##   "
-##   
-##   ###  url del servidor GraphiQL 
-##   url1 <- c('https://colectas-siagro.conabio.gob.mx/api/graphql')
-##   ##
-##   ##
-##   result <- POST(url = url1, body = list(query = my_query))
-##   result$status_code
-#   jsonResult <- content(result, as = "text") 
-#   
-#   readableResult <- fromJSON(jsonResult, 
-#                              flatten = T)
-#   
-#   data <- as.data.frame(readableResult$data[1]) 
-#   
-
-
 get_from_graphQL <- function(query, url){
-    
-    require(httr)
-    require(jsonlite)
-    require(tidyverse)
-    require(janitor)
-    
-     
     ### This function queries a GraphiQL API and outpus the data into a single data.frame 
     
     ## Arguments
@@ -70,20 +21,17 @@ get_from_graphQL <- function(query, url){
     
     ### Function
     
+    ##  query the server
     result <- POST(url, body = list(query=query), encode=c("json"))
     
-    ##  query the server
-    ##result <- POST(url, body = list(query = query))
-    
     ## check server response
-    satus_code <- result$status_code
+    # status_code <- result$status_code
     
-    if (satus_code != 200) {
-        print(paste0("Oh, oh: status code ", satus_code, ". Check your query and that the server is working"))
+    if (status_code(result) != 200) {
+        print(paste0("Oh, oh: status code ", status_code(result), ". Check your query and that the server is working"))
     }
     
     else{
-        
         # get data from query result
         jsonResult <- content(result, as = "text") 
         
@@ -109,9 +57,3 @@ get_from_graphQL <- function(query, url){
         }
     }
 }
-
-
-#data <- get_from_graphQL(query = my_query, 
-#                         url = "https://siagro.conabio.gob.mx/colectas_api")
-#
-#head(data)
